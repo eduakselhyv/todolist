@@ -15,6 +15,7 @@ async function getAllTasks(params) {
 
 // Save the text gotten from react into db using .create()
 async function saveTask(task) {
+
     const saveTask = await Task.create({
         text: task.text,
     });
@@ -44,5 +45,17 @@ async function deleteTask(id) {
     }
 }
 
+// I created a separate function for editing tasks
+async function putTask(id, task) {
+    try {
+        // if _id matches the id provided, then update the text of that specific object into the provided text.
+        const x = await Task.updateOne({ _id: id }, {text: task});
+
+    } catch (error) {
+        console.error("Failed to update object!: ", error);
+        throw error;
+    }
+}
+
 // Export functions
-module.exports = { getAllTasks, saveTask, deleteTask };
+module.exports = { getAllTasks, saveTask, deleteTask, putTask };

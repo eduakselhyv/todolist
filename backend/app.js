@@ -1,4 +1,5 @@
 // Requirements
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const indexRouter = require("./routers/index");
@@ -8,6 +9,10 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 const { Task } = require("./mongo/schema");
 
+const username = process.env.user_name;
+const password = process.env.user_password;
+
+console.log(username, password);
 
 // Create express app
 const app = express();
@@ -39,7 +44,7 @@ const server = app.listen(port, () => {
 
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://<username>:<password>@todolist.m2jpear.mongodb.net/");
+mongoose.connect("mongodb+srv://"+username+":"+password+"@cluster001.flvvw29.mongodb.net/?retryWrites=true&w=majority&appName=Cluster001");
 
 
 // Functions

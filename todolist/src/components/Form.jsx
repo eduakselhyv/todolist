@@ -17,7 +17,7 @@ function Form() {
                     headers: {
                         "Content-Type": "application/json",
                         "Access-Control-Allow-Origin": "*",
-                        "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS", 
+                        "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT, OPTIONS", 
                         "Access-Control-Allow-Headers":
                         "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
                     },
@@ -54,7 +54,7 @@ function Form() {
                     headers: {
                         "Content-Type": "application/json",
                         "Access-Control-Allow-Origin": "*",
-                        "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+                        "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT, OPTIONS",
                         "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
                     },
                 });
@@ -77,7 +77,7 @@ function Form() {
                 headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS", 
+                    "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT, OPTIONS", 
                     "Access-Control-Allow-Headers":
                     "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
                 },
@@ -100,34 +100,26 @@ function Form() {
         // if the user submit anything
         if (editedTask) {
             try {
-                // delete the task from the db, and create a new one with the edited name
-                // I did this like this because I didn't include a method to update a name directly
+                // Update the db using the put function
                 await fetch(`http://localhost:3001/${id}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                        "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
-                        "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
-                    },
-                });
-
-                const updatedTasks = tasks.filter((task) => task.id !== id);
-                setTasks(updatedTasks);
-
-                const response = await fetch("http://localhost:3001/", {
-                    method: "POST",
+                    method: "PUT",
                     body: JSON.stringify({ text: editedTask }),
                     headers: {
                         "Content-Type": "application/json",
                         "Access-Control-Allow-Origin": "*",
-                        "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+                        "Access-Control-Allow-Methods": "GET, POST, DELETE, PUT, OPTIONS",
                         "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
                     },
                 });
-    
-                const y = await response.json();
-                setTasks([...updatedTasks, {id: y.task.id, text: y.task.text}]);
+
+                // Update the task client-side
+                const updatedTasks = tasks.map(task => { if (task.id === id) {
+                        return { id: id, text: editedTask };
+                    }
+                    return task;
+                });
+
+                setTasks(updatedTasks);
 
             } catch (error) {
                 console.error("Error editing task:", error);

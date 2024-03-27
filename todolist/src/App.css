@@ -1,3 +1,8 @@
+body {
+  margin: 50px;
+  background-color: rgb(54, 54, 54);
+}
+
 .tasklist {
   width: 30vw;
   margin-left: auto;
@@ -11,7 +16,7 @@
 
 .tasksearch input {
   height: 40px;
-  width: 300px;
+  width: 89%;
   border-color: rgba(0, 0, 0)
 }
 
@@ -27,8 +32,19 @@
 }
 
 .task {
-  padding: 4px;
+  padding: 15px 4px;
   margin: 4px;
-  width: 30%;
+  width: 100%;
   border: 1px solid black;
+  border-radius: 5px;
+  background-color: rgb(222, 222, 222);
+}
+
+.buttons {
+  float: right;
+}
+
+h1 {
+  text-align: center;
+  color: white;
 }

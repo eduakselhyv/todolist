@@ -5,12 +5,14 @@ const { Task } = require("../mongo/schema");
 const router = express.Router();
 const task = require("../mongo/testbackend");
 
+// Get all tasks using getAllTasks();
 router.get("/", async function (req, res, next) {
     const list = await task.getAllTasks();
     console.log(list);
     res.json({ list });
 });
 
+// Add a new task using saveTask();
 router.post("/", async function (req, res, next) {
     try {
         const body = req.body;
@@ -30,6 +32,7 @@ router.post("/", async function (req, res, next) {
     }
 });
 
+// Delete a task using deleteTask();
 router.delete("/:id", async function (req, res, next) {
     try {
         const taskId = req.params.id;
@@ -38,6 +41,20 @@ router.delete("/:id", async function (req, res, next) {
         res.json({ status: "ok" });
     } catch (error) {
         console.error("Error deleting task", error);
+        res.status(500).json({ status: "ERROR 500" });
+    }
+});
+
+// Edit a task using putTask();
+router.put("/:id", async function (req, res, next) {
+    try {
+        const body = req.body;
+        const taskId = req.params.id;
+        console.log("file: index.js | router.put() | taskId", taskId, body);
+        const test = await task.putTask(taskId, body.text);
+        res.json({ status: "ok" });
+    } catch (error) {
+        console.error("Error updating task", error);
         res.status(500).json({ status: "ERROR 500" });
     }
 });
