@@ -33,7 +33,7 @@ async function saveTask(task) {
 // I had to modify this myself a bit, since some stuff had changed.
 async function deleteTask(id) {
     try {
-        const x = await Task.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
+        const x = await Task.deleteOne({ _id: id });
 
         if (x && !x.deletedCount) {
             throw new Error("No tasks were deleted");
